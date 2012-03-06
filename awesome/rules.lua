@@ -1,0 +1,43 @@
+awful.rules.rules = {
+	-- All clients will match this rule.
+	{ rule = { },
+	properties = { border_width = beautiful.border_width,
+	border_color = beautiful.border_normal,
+	focus = true,
+	keys = clientkeys,
+	buttons = clientbuttons } },
+	{ rule = { class = "MPlayer" },
+	properties = { floating = true } },
+	{ rule = { class = "pinentry" },
+	properties = { floating = true } },
+	{ rule = { class = "gimp" },
+	properties = { floating = true } },
+	{ rule = { instance= "net-minecraft-LauncherFrame" },--, name = "Minecraft Launcher" },
+	properties = { tag = tags["media"] } },
+
+	-- Set Firefox to always map on tags number 2 of screen 2.
+	{ rule = { class = "Firefox" },
+	properties = { tag = tags["web"] } },
+	{ rule = { class = "chromium-browser" },
+	properties = { tag = tags["web"] } },
+	{ rule = { class = "Pidgin", role = "buddy_list" },
+	properties = { }, callback = awful.client.setslave },
+	{ rule = { class = "Pidgin" },
+	properties = { tag = tags["chat"] } },
+	{ rule = { class = "skype", role = "MainWindow" },
+	properties = { tag = tags["chat"] }, callback = awful.client.setslave },
+	{ rule = { class = "skype" },
+	properties = { tag = tags["chat"] } },
+
+	{ rule = { class = "rhythmbox" },
+	properties = { tag = tags["music"] } },
+	{ rule = { class = "sun-awt-X11-XFramePeer", instance = "com-sun-javaws-Main" },
+	properties = {tag = tags["news"] } },
+	{ rule = { instance = "Thunderbird" },
+	properties = {tag = tags["news"] } },
+	{ rule = { class = "TweetDeck" },
+	properties = { tag = tags["social"] } },
+	{ rule = { class = "TweetDeck", name = "" },
+	properties = { floating = true } },
+}
+
