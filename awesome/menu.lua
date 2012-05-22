@@ -3,7 +3,8 @@ myawesomemenu = {
 	{ "manual", terminal .. " -e man awesome" },
 	{ "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/rc.lua" },
 	{ "restart", awesome.restart },
-	{ "quit", awesome.quit }
+	{ "quit", awesome.quit },
+	{ "shutdown", "gksudo shutdown -h now" }
 }
 mymainmenu = awful.menu({ 
 	items = { 

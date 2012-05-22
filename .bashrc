@@ -1,125 +1,105 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+# System-wide .bashrc file for interactive bash(1) shells.
+
+# To enable the settings / commands in this file for login shells as well,
+# this file has to be sourced in /etc/profile.
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-# don't put duplicate lines in the history. See bash(1) for more options
-# don't overwrite GNU Midnight Commander's setting of `ignorespace'.
-# ... or force ignoredups and ignorespace
-export HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-PROMPT_COMMAND='history -a'
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=4000
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
 # set variable identifying the chroot you work in (used in the prompt below)
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-unset color_prompt force_color_prompt
+use_color=false
 
+
+# Set colorful PS1 only on colorful terminals.
+# dircolors --print-database uses its own built-in database
+# instead of using /etc/DIR_COLORS.  Try to use the external file
+# first to take advantage of user additions.  Use internal bash
+# globbing instead of external grep binary.
+safe_term=${TERM//[^[:alnum:]]/?}   # sanitize TERM
+match_lhs=""
+[[ -f ~/.dir_colors   ]] && match_lhs="${match_lhs}$(<~/.dir_colors)"
+[[ -f /etc/DIR_COLORS ]] && match_lhs="${match_lhs}$(</etc/DIR_COLORS)"
+[[ -z ${match_lhs}    ]] \
+        && type -P dircolors >/dev/null \
+        && match_lhs=$(dircolors --print-database)
+[[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
+
+if ${use_color} ; then
+        # Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
+        if type -P dircolors >/dev/null ; then
+                if [[ -f ~/.dir_colors ]] ; then
+                        eval $(dircolors -b ~/.dir_colors)
+                elif [[ -f /etc/DIR_COLORS ]] ; then
+                        eval $(dircolors -b /etc/DIR_COLORS)
+                fi
+        fi
+
+        if [[ ${EUID} == 0 ]] ; then
+                PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '
+        else
+                PS1='${debian_chroot:+($debian_chroot)}${GREEN}\u${PURPLE}@${CYAN}\h ${GRAY}\w $ '
+		#\[\033[01;34m\]\u\[\033[00m\]@\[\033[01;35m\]\h\[\033[00m\]:\w\[\033[00m\]\$ 
+        fi
+
+        alias ls='ls --color=auto'
+        alias grep='grep --colour=auto'
+
+	WHITE="\[\033[2;37m\]"
+	GREEN="\[\033[0;32m\]"
+	CYAN="\[\033[0;36m\]"
+	GRAY="\[\033[0;37m\]"
+	BLUE="\[\033[0;34m\]"
+	YELLOW="\[\033[0;33m\]"
+	export PS1="${GREEN}\u${BLUE}@${YELLOW}\h ${GRAY}\w $ "
+
+else
+	if [[ ${EUID} == 0 ]] ; then
+		# show root@ when we don't have colors
+		PS1='\u@\h \W \$ '
+	else
+		PS1='\u@\h \w \$ '
+	fi
+fi
+
+# Try to keep environment pollution down, EPA loves us.
+unset use_color safe_term match_lhs WHITE GREEN CYAN GRAY BLUE YELLOW
+
+# Commented out, don't overwrite xterm -T "title" -n "icontitle" by default.
 # If this is an xterm set the title to user@host:dir
 #case "$TERM" in
 #xterm*|rxvt*)
-#    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+#    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 #    ;;
 #*)
 #    ;;
 #esac
 
-if [ "$TERM" = "linux" ]
-then
-	#we're on the system console or maybe telnetting in
-	export PS1="\[\e[36;1m\]\u@\H(\w) ->> \[\e[0m\]"
-else
-	#we're not on the console, assume an xterm
-	#export PS1="\[\e]2;\u@\h \a\e[36;1m\].-(\w)\n'--> \[\e[0m\]"
-	PROMPT_COMMAND='DIR=`pwd|sed -e "s!$HOME!~!"`; if [ ${#DIR} -gt 30 ]; then CurDir=${DIR:0:12}...${DIR:${#DIR}-15}; else CurDir=$DIR; fi'
-	PS1="\n[\[\033[01;36m\]\A\[\033[01;00m\]][\[\033[01;32m\]\u\[\033[01;33m\]@\[\033[01;31m\]\h\[\033[01;00m\][\[\033[01;36m\]\$CurDir\[\033[01;00m\]]\[\033[01;32m\]>>\[\033[00m\] "
-fi
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+# enable bash completion in interactive shells
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
-export TERM="screen"
-shopt -s cdspell
-export HISTTIMEFORMAT="%F %T "
-PATH=$PATH:/usr/local/bin
-if [ "$TERM" = "linux" ]; then
-    echo -en "\e]P0222222" #black
-    echo -en "\e]P8222222" #darkgrey
-    echo -en "\e]P1803232" #darkred
-    echo -en "\e]P9982b2b" #red
-    echo -en "\e]P25b762f" #darkgreen
-    echo -en "\e]PA89b83f" #green
-    echo -en "\e]P3aa9943" #brown
-    echo -en "\e]PBefef60" #yellow
-    echo -en "\e]P4324c80" #darkblue
-    echo -en "\e]PC2b4f98" #blue
-    echo -en "\e]P5706c9a" #darkmagenta
-    echo -en "\e]PD826ab1" #magenta
-    echo -en "\e]P692b19e" #darkcyan
-    echo -en "\e]PEa1cdcd" #cyan
-    echo -en "\e]P7ffffff" #lightgrey
-    echo -en "\e]PFdedede" #white
-    clear #for background artifacting
+
+# if the command-not-found package is installed, use it
+if [ -x /usr/lib/command-not-found ]; then
+	function command_not_found_handle {
+	        # check because c-n-f could've been removed in the meantime
+                if [ -x /usr/lib/command-not-found ]; then
+		   /usr/bin/python /usr/lib/command-not-found -- $1
+                   return $?
+		else
+		   return 127
+		fi
+	}
 fi
 
-extract () {
-    if [ -f $1 ]; then
-            case $1 in
-            *.tar.bz2)  tar -jxvf $1        ;;
-            *.tar.gz)   tar -zxvf $1        ;;
-            *.bz2)      bzip2 -d $1         ;;
-            *.gz)       gunzip -d $1        ;;
-            *.tar)      tar -xvf $1         ;;
-            *.tgz)      tar -zxvf $1        ;;
-            *.zip)      unzip $1            ;;
-            *.Z)        uncompress $1       ;;
-            *.rar)      unrar x $1            ;;
-            *)          echo "'$1' Error. Please go away" ;;
-            esac
-            else
-            echo "'$1' is not a valid file"
-  fi
-  }
+#/usr/bin/mint-fortune
+export PATH="$PATH:/opt/dsss/bin/:."
+export CLASSPATH="/usr/share/java/junit4.jar:."
