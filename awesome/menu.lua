@@ -8,18 +8,14 @@ myawesomemenu = {
 mymainmenu = awful.menu({ 
 	items = { 
 		{ "awesome", myawesomemenu, beautiful.awesome_icon },
-		{ "&firefox", "firefox" },
-		{ "&chromium", "chromium-browser --enable-plugins" },
+		{ "&chromium", "chromium --enable-plugins" },
 		{ "thu&nderbird", "thunderbird" },
-		-- { "&blogbridge", "javaws -localfile /home/aramande/.java/deployment/cache/6.0/8/11ce99c8-2427ca6d" },
-		-- { "&blogbridge", "/usr/lib/jvm/java-6-sun-1.6.0.26/jre/bin/javaws -localfile /home/aramande/.java/deployment/cache/6.0/8/11ce99c8-2427ca6d" },
 		{ "&blogbridge", "blogbridge-6.7/blogbridge.sh" },
 		{ "&tweetdeck", "tweetdeck" },-- Chromium version: "chromium-browser --app-id=hbdpomandigafcibbmofojjchbcdagbl" },
 		{ "&pidgin", "pidgin" },
 		{ "&skype", "skype" },
 		{ "b&anshee", "banshee" },
 		{ "&minecraft", "minecraft" },
-		{ "debian", debian.menu.Debian_menu.Debian },
 		{ "open terminal", terminal }
 	}
 })

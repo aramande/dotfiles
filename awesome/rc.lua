@@ -8,7 +8,7 @@ require("beautiful")
 require("naughty")
 
 -- Load Debian menu entries
-require("debian.menu")
+--require("debian.menu")
 --if screen.count() == 1 then
 --	require("rc1")
 --elseif screen.count() == 2 then
