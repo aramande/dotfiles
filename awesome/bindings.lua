@@ -66,7 +66,9 @@ end),
 -- Custom commands
 -- Important programs
 awful.key({ altkey,	 }, "grave",	function() awful.util.spawn(terminal)								end),
-awful.key({ modkey,	 }, "i",		function() awful.util.spawn("setxkbmap -layout us -variant euro")	end),
+awful.key({ altkey,	 }, "dollar",	function() awful.util.spawn(terminal)								end),
+awful.key({ modkey,	 }, "i",		function() awful.util.spawn("setxkbmap -layout us -variant dvp")	end),
+
 
 
 -- Window/screen managing
@@ -85,12 +87,12 @@ awful.key({ modkey, "Shift"	 }, "Tab", function () awful.screen.focus_relative(-
 awful.key({ modkey,          }, "e",   function () awful.util.spawn("nautilus")    end),
 
 -- Media button bindings
-awful.key({ }, "XF86AudioPlay", 	function () awful.util.spawn("mpc toggle")		end),
-awful.key({ }, "XF86AudioNext", 	function () awful.util.spawn("mpc next")		end),
-awful.key({ }, "XF86AudioPrev", 	function () awful.util.spawn("mpc prev")		end),
-awful.key({ }, "XF86AudioStop", 	function () awful.util.spawn("mpc stop")		end),
-awful.key({ }, "XF86AudioRaiseVolume",	function() awful.util.spawn("amixer set Master 1%+")	end),
-awful.key({ }, "XF86AudioLowerVolume",	function() awful.util.spawn("amixer set Master 1%-")	end),
+awful.key({ }, "XF86AudioPlay", 	function () awful.util.spawn("mpc -p 6601 toggle")		end),
+awful.key({ }, "XF86AudioNext", 	function () awful.util.spawn("mpc -p 6601 next")		end),
+awful.key({ }, "XF86AudioPrev", 	function () awful.util.spawn("mpc -p 6601 prev")		end),
+awful.key({ }, "XF86AudioStop", 	function () awful.util.spawn("mpc -p 6601 stop")		end),
+awful.key({ }, "XF86AudioRaiseVolume",	function() awful.util.spawn("amixer set Master 5%+")	end),
+awful.key({ }, "XF86AudioLowerVolume",	function() awful.util.spawn("amixer set Master 5%-")	end),
 awful.key({ }, "XF86AudioMute",		function() awful.util.spawn("amixer set Master toggle") end)
 )
 

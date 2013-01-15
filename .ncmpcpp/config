@@ -9,9 +9,9 @@
 #
 mpd_host = "localhost"
 #
-mpd_port = "6600"
+mpd_port = "6601"
 #
-mpd_music_dir = "/media/acer/Music/"
+mpd_music_dir = "/media/takara/"
 #
 mpd_connection_timeout = "5"
 #
@@ -265,7 +265,7 @@ centered_cursor = "yes"
 ## Note: You can specify third character which will
 ## be used to build 'empty' part of progressbar.
 ##
-progressbar_look = "-0-"
+progressbar_look = "=|-"
 #
 default_place_to_search_in = "database" (database/playlist)
 #

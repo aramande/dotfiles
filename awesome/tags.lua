@@ -1,8 +1,8 @@
 	-- Define a tag table which hold all screen tags.
 	tags = {}
 	-- Singlescreen mode
-	namelist = { "chat",   "music",  "news",   "social", "code",   "web",    "term",   "media"}
-	layoutlist  = { layouts[3], layouts[8], layouts[2], layouts[8], layouts[2], layouts[8], layouts[6], layouts[8] }
+	namelist = { "code",   "web",    "term",   "media", "chat",   "music",  "news",   "social" }
+	layoutlist  = { layouts[2], layouts[8], layouts[6], layouts[8], layouts[3], layouts[8], layouts[2], layouts[8] }
 	for s=1, screen.count() do
 		start = (s-1)/screen.count()*#namelist+1
 		stop = s/screen.count()*#namelist
@@ -31,5 +31,5 @@
 	end
 
 	awful.tag.setproperty(tags["chat"], "mwfact", 0.75)
-	awful.tag.setproperty(tags["chat"], "nmaster", 2)
+	awful.tag.setproperty(tags["chat"], "nmaster", 3)
 	awful.tag.setproperty(tags["code"], "mwfact", 0.70)

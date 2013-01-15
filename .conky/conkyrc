@@ -12,13 +12,17 @@ no_buffers yes
 
 text_buffer_size 2048
 
+# MPD host/port
+mpd_host localhost
+mpd_port 6601
+
 # -- Window specifications -- #
 
 own_window no
 
 alignment bottom_left
-gap_x 125
-gap_y 0
+gap_x 10
+gap_y -10
 
 minimum_size 800
 
@@ -36,17 +40,21 @@ xftalpha 0.4
 uppercase no
 
 color1 834040
-color2 86c113
-color3 1994d1
+color2 aaffaa
+color3 368113
 
 default_color EEEEEE
 
 # -- Lua Load -- #
-lua_load ~/.conky/rings.lua
-lua_draw_hook_pre ring_stats
+#lua_load ~/.conky/rings.lua
+#lua_draw_hook_pre ring_stats
 
 TEXT
-${font MonteCarlo}${tail /var/log/messages.log 7 60}${font}
-${uptime_short}                                                                                                              ${color3}${goto 870}sda ${color}${hddtemp /dev/sda}C ${color3}${goto 970}cpu  ${color}${hwmon temp 1}C ${goto 1230}${color3}mpd ${color}${mpd_status} ${goto 1380}${color3}repeat ${color}${mpd_repeat} ${goto 1500}${color3}random ${color}${mpd_random} ${color3}${goto 1640}mail ${color}${new_mails /home/vikki/mail/inbox}
-${time %A}    ${goto 275}${color3}${time %H}${color2}${time %M}                                                              ${color3}${goto 870}sdb ${color}${hddtemp /dev/sdb}C ${color3}${goto 970}mobo ${color}${hwmon temp 2}C
-${time %d %B}                                                   ${goto 390}cpu ${goto 510}mem ${goto 630}disk ${goto 765}vol ${color3}${goto 870}sdc ${color}${hddtemp /dev/sdc}C ${color3}${goto 970}gpu  ${color}${nvidia temp}C  ${goto 1180}${color}${mpd_smart}
+${font samanata:size=14}${color1}|  ${color2}core1:${color3} ${hwmon temp 1} C ${cpu cpu1}% ${cpugraph cpu1 14,80} ${color1}|  ${color2}core2: ${color3}${hwmon temp 2} C ${cpu cpu2}% ${cpugraph cpu2 14,80} ${color1}|  ${color2}core3:${color3} ${hwmon temp 3} C ${cpu cpu3}% ${cpugraph cpu3 14,80} ${color1}|  ${color2}core4: ${color3}${hwmon temp 4} C ${cpu cpu4}% ${cpugraph cpu4 14,80} ${color1}|  ${color3} ${mpd_smart}
+${font samanata:size=14}${color1}|  ${color2}takara:${color3} ${fs_free /media/takara}${color2}  windows: ${color3}${fs_free /media/windows}${color2}  linux: ${color3}${fs_free /}  ${color1}|  ${color2} ${uptime}  ${color1}|  ${color2}cpu: ${color3}${cpu}% ${color2}mem: ${color3}${memperc}%  ${color1}|  ${color2}down:${color3} ${downspeed eth0}${color2}  up:${color3} ${upspeed eth0}${color1} | ${color2}
+
+# ${color white}gmail - ${alignc}${color color3}${texeci 90 python /home/aramande/.conky/gmail.py} 
+#${font MonteCarlo}${tail /var/log/messages.log 7 60}${font}
+#${uptime_short}                                                                                                              ${color3}${goto 870}sda ${color}${hddtemp /dev/sda}C ${color3}${goto 970}cpu  ${color}${hwmon temp 1}C ${goto 1230}${color3}mpd ${color}${mpd_status} ${goto 1380}${color3}repeat ${color}${mpd_repeat} ${goto 1500}${color3}random ${color}${mpd_random} ${color3}${goto 1640}mail ${color}${new_mails /home/vikki/mail/inbox}
+#${time %A}    ${goto 275}${color3}${time %H}${color2}${time %M}                                                              ${color3}${goto 870}sdb ${color}${hddtemp /dev/sdb}C ${color3}${goto 970}mobo ${color}${hwmon temp 2}C
+#${time %d %B}                                                   ${goto 390}cpu ${goto 510}mem ${goto 630}disk ${goto 765}vol ${color3}${goto 870}sdc ${color}${hddtemp /dev/sdc}C ${color3}${goto 970}gpu  ${color}${nvidia temp}C  ${goto 1180}${color}${mpd_smart}

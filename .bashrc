@@ -57,8 +57,8 @@ if ${use_color} ; then
 	CYAN="\[\033[0;36m\]"
 	GRAY="\[\033[0;37m\]"
 	BLUE="\[\033[0;34m\]"
-	YELLOW="\[\033[0;33m\]"
-	export PS1="${GREEN}\u${BLUE}@${YELLOW}\h ${GRAY}\w $ "
+	RED="\[\033[0;31m\]"
+	export PS1="${GREEN}\u${BLUE}@${RED}\h ${GRAY}\w $ "
 
 else
 	if [[ ${EUID} == 0 ]] ; then
@@ -101,5 +101,7 @@ if [ -x /usr/lib/command-not-found ]; then
 fi
 
 #/usr/bin/mint-fortune
-export PATH="$PATH:/opt/dsss/bin/:."
+alias l='ls -al'
+export PATH="$PATH:/opt/dsss/bin/:/opt/gdc/bin:/home/aramande/bin:."
 export CLASSPATH="/usr/share/java/junit4.jar:."
+export MPD_PORT="6601"

@@ -1,11 +1,11 @@
 -- Themes define colours, icons, and wallpapers
 -- Default themes are located at /usr/share
---beautiful.init("/home/aramande/.config/awesome/themes/mytheme/theme.lua")
-beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+beautiful.init("/home/aramande/.config/awesome/themes/mytheme/theme.lua")
+--beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "gnome-terminal"
-editor = os.getenv("EDITOR") or "editor"
+editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -32,3 +32,8 @@ layouts =
 	--	awful.layout.suit.max.fullscreen,
 	awful.layout.suit.magnifier		-- 9
 }
+
+second = 2
+if screen.count() == 1 then
+	second = 1
+end
